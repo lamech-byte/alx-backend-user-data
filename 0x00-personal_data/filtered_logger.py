@@ -5,7 +5,6 @@ filtered_logger.py - Module for filtering log data using regex.
 
 import re
 
-
 def filter_datum(fields, redaction, message, separator):
     """
     Replace occurrences of certain field values with redaction in the message.
@@ -13,4 +12,4 @@ def filter_datum(fields, redaction, message, separator):
     pattern = r"(?<=^|{})(?:(?<=\{})[^{}]*(?=\{})|[^{}]*)(?=$|{})".format(
         separator, separator, separator, separator, separator, redaction
     )
-    return re.sub(pattern, message)
+    return re.sub(pattern, redaction, message)
