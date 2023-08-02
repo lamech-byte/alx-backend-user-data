@@ -4,11 +4,20 @@ Main file
 """
 
 import logging
-import re
+from filtered_logger import RedactingFormatter
 
-RedactingFormatter = __import__('filtered_logger').RedactingFormatter
+# Create a logger and set its level
+logger = logging.getLogger('my_logger')
+logger.setLevel(logging.INFO)
+
+# Create a stream handler with the RedactingFormatter
+handler = logging.StreamHandler()
+handler.setFormatter(RedactingFormatter(fields=("email", "ssn", "password")))
+
+# Add the handler to the logger
+logger.addHandler(handler)
 
 message = "name=Bob;email=bob@dylan.com;ssn=000-123-0000;password=bobby2019;"
-log_record = logging.LogRecord("my_logger", logging.INFO, None, None, message, None, None)
-formatter = RedactingFormatter(fields=("email", "ssn", "password"))
-print(formatter.format(log_record))
+
+# Log the message using the configured logger
+logger.info(message)
