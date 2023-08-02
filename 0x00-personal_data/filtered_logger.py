@@ -3,14 +3,10 @@
 filtered_logger.py - Module for filtering log data using regex.
 """
 
-import logging
-import re
-from typing import List
+import os
+import mysql.connector
 
-
-def filter_datum(
-    fields: List[str], redaction: str, message: str, separator: str
-) -> str:
+def filter_datum(fields, redaction, message, separator):
     """
     Replace occurrences of certain field values with redaction in the message.
     """
@@ -27,18 +23,18 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields: List[str]):
+    def __init__(self, fields):
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
-    def format(self, record: logging.LogRecord) -> str:
+    def format(self, record):
         log_msg = super().format(record)
         return filter_datum(self.fields, self.REDACTION, log_msg, self.SEPARATOR)
 
 # Define the PII_FIELDS constant containing the fields considered PII.
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
-def get_logger() -> logging.Logger:
+def get_logger():
     """ Return a logger object with specific settings """
     logger = logging.getLogger('user_data')
     logger.setLevel(logging.INFO)
@@ -51,3 +47,19 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
 
     return logger
+
+def get_db():
+    """ Return a connector to the database """
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    db = mysql.connector.connect(
+        user=db_username,
+        password=db_password,
+        host=db_host,
+        database=db_name
+    )
+
+    return db
