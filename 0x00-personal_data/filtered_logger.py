@@ -35,6 +35,7 @@ class RedactingFormatter(logging.Formatter):
         )
 
 # Define the PII_FIELDS constant containing the fields considered PII.
+
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
