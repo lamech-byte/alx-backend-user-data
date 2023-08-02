@@ -37,7 +37,10 @@ class RedactingFormatter(logging.Formatter):
         )
 
 # Define the PII_FIELDS constant containing the fields considered PII.
+
+
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
+
 
 def get_logger():
     """ Return a logger object with specific settings """
@@ -52,6 +55,7 @@ def get_logger():
     logger.propagate = False
 
     return logger
+
 
 def get_db():
     """ Return a connector to the database """
@@ -69,6 +73,7 @@ def get_db():
 
     return db
 
+
 def main():
     """ Retrieve and display data from the users table """
     logger = get_logger()
@@ -77,10 +82,15 @@ def main():
 
     cursor.execute("SELECT * FROM users;")
     for row in cursor:
-        logger.info("name={}; email={}; phone={}; ssn={}; password={}; ip={}; last_login={}; user_agent={};".format(*row))
+        log_msg = (
+            "name={}; email={}; phone={}; ssn={}; password={}; "
+            "ip={}; last_login={}; user_agent={};"
+        ).format(*row)
+        logger.info(log_msg)
 
     cursor.close()
     db.close()
+
 
 if __name__ == "__main__":
     main()
