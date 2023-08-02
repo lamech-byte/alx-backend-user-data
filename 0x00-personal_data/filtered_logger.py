@@ -6,6 +6,7 @@ filtered_logger.py - Module for filtering log data using regex.
 import logging
 import re
 
+
 def filter_datum(fields, redaction, message, separator):
     """
     Replace occurrences of certain field values with redaction in the message.
@@ -29,4 +30,6 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         log_msg = super().format(record)
-        return filter_datum(self.fields, self.REDACTION, log_msg, self.SEPARATOR)
+        return filter_datum(
+            self.fields, self.REDACTION, log_msg, self.SEPARATOR
+        )
