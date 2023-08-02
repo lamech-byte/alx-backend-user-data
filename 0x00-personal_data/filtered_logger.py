@@ -7,10 +7,7 @@ import logging
 import re
 from typing import List
 
-
-def filter_datum(
-    fields: List[str], redaction: str, message: str, separator: str
-) -> str:
+def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
     """
     Replace occurrences of certain field values with redaction in the message.
     """
@@ -33,6 +30,21 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         log_msg = super().format(record)
-        return filter_datum(
-            self.fields, self.REDACTION, log_msg, self.SEPARATOR
-        )
+        return filter_datum(self.fields, self.REDACTION, log_msg, self.SEPARATOR)
+
+# Define the PII_FIELDS constant containing the fields considered PII.
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
+
+def get_logger() -> logging.Logger:
+    """ Return a logger object with specific settings """
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+
+    handler = logging.StreamHandler()
+    formatter = RedactingFormatter(fields=PII_FIELDS)
+    handler.setFormatter(formatter)
+
+    logger.addHandler(handler)
+    logger.propagate = False
+
+    return logger
