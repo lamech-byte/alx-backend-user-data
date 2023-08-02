@@ -6,6 +6,7 @@ filtered_logger.py - Module for filtering log data using regex.
 import os
 import mysql.connector
 
+
 def filter_datum(fields, redaction, message, separator):
     """
     Replace occurrences of certain field values with redaction in the message.
@@ -29,10 +30,13 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record):
         log_msg = super().format(record)
-        return filter_datum(self.fields, self.REDACTION, log_msg, self.SEPARATOR)
+        return filter_datum(
+            self.fields, self.REDACTION, log_msg, self.SEPARATOR
+        )
 
 # Define the PII_FIELDS constant containing the fields considered PII.
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
+
 
 def get_logger():
     """ Return a logger object with specific settings """
@@ -47,6 +51,7 @@ def get_logger():
     logger.propagate = False
 
     return logger
+
 
 def get_db():
     """ Return a connector to the database """
