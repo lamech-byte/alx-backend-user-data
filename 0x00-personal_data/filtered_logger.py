@@ -10,7 +10,9 @@ def filter_datum(fields, redaction, message, separator):
     """
     Replace occurrences of certain field values with redaction in the message.
     """
-    pattern = r"(?<=^|{})(?:(?<=\{})[^{}]*(?=\{})|[^{}]*)(?=$|{})".format(
-        separator, separator, separator, separator, separator, redaction
+    pattern = r"(^|{})([^{}]*)(?={})".format(
+        separator, separator, separator
     )
-    return re.sub(pattern, redaction, message)
+    for field in fields:
+        pattern = pattern.replace(field, redaction)
+    return re.sub(pattern, message)
