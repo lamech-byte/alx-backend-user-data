@@ -75,18 +75,15 @@ def get_logger():
     """
     Get a logger named "user_data" that logs up to logging.INFO level.
     The logger has a StreamHandler with RedactingFormatter as formatter.
-    
     Returns:
         logging.Logger: A logger instance.
     """
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
-    
     handler = logging.StreamHandler()
     formatter = RedactingFormatter(fields=PII_FIELDS)
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    
     return logger
 
 
