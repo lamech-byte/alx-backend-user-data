@@ -3,7 +3,6 @@
 Module for obfuscating sensitive data in log messages using regex.
 """
 
-
 import re
 from typing import List
 
@@ -24,15 +23,19 @@ def filter_datum(
         str: The obfuscated log message.
     """
     return re.sub(
-        rf'({"|".join(fields)})=[^;]+', f'\\1={redaction}', message
+        rf'({"|".join(fields)})=[^;]+',
+        f'\\1={redaction}',
+        message
     )
 
 
 if __name__ == "__main__":
     fields = ["password", "date_of_birth"]
     messages = [
-        "name=egg;email=eggmin@eggsample.com;password=eggcellent;date_of_birth=12/12/1986;",
-        "name=bob;email=bob@dylan.com;password=bobbycool;date_of_birth=03/04/1993;"
+        "name=egg;email=eggmin@eggsample.com;"
+        "password=eggcellent;date_of_birth=12/12/1986;",
+        "name=bob;email=bob@dylan.com;"
+        "password=bobbycool;date_of_birth=03/04/1993;"
     ]
 
     for message in messages:
