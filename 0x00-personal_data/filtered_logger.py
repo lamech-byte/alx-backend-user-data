@@ -31,7 +31,21 @@ def filter_datum(
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class """
+    """
+    Custom log formatter for redacting sensitive data.
+
+    Args:
+        fields (List[str]): List of fields to obfuscate.
+
+    Attributes:
+        REDACTION (str): String to replace the obfuscated fields.
+        FORMAT (str): Log message format.
+        SEPARATOR (str): Character separating fields in the log message.
+
+    Methods:
+        format(record: logging.LogRecord) -> str:
+            Formats the log record while redacting specified fields.
+    """
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
@@ -42,6 +56,15 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        """
+        Formats the log record while redacting specified fields.
+
+        Args:
+            record (logging.LogRecord): The log record to be formatted.
+
+        Returns:
+            str: The formatted log message with sensitive fields redacted.
+        """
         message = super().format(record)
         return filter_datum(
             self.fields, self.REDACTION, message, self.SEPARATOR
