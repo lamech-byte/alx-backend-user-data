@@ -7,6 +7,7 @@ Module for obfuscating sensitive data in log messages using regex.
 import re
 from typing import List
 
+
 def filter_datum(
     fields: List[str], redaction: str, message: str, separator: str
 ) -> str:
@@ -25,6 +26,7 @@ def filter_datum(
     return re.sub(
         rf'({"|".join(fields)})=[^;]+', f'\\1={redaction}', message
     )
+
 
 if __name__ == "__main__":
     fields = ["password", "date_of_birth"]
