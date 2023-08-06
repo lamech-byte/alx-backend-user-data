@@ -22,11 +22,9 @@ def filter_datum(
     Returns:
         str: The obfuscated log message.
     """
-    return re.sub(
-        rf'({"|".join(fields)})=[^;]+',
-        f'\\1={redaction}',
-        message
-    )
+    for field in fields:
+        message = re.sub(rf'({field})=[^;]+', f'\\1={redaction}', message)
+    return message
 
 
 if __name__ == "__main__":
