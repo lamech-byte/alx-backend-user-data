@@ -2,7 +2,7 @@
 """ Module of Index views
 """
 from flask import jsonify, Blueprint, abort
-from werkzeug.exceptions import HTTPException, Unauthorized
+from werkzeug.exceptions import HTTPException, Unauthorized, Forbidden
 from api.v1.views import app_views
 
 
@@ -13,6 +13,12 @@ app_views = Blueprint("app_views", __name__)
 def unauthorized_endpoint():
     # Raise a 401 Unauthorized error using HTTPException
     raise Unauthorized(description="Unauthorized")
+
+
+@app_views.route('/api/v1/forbidden', methods=['GET'])
+def forbidden_endpoint():
+    # Raise a 403 Forbidden error using abort
+    abort(403)
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
