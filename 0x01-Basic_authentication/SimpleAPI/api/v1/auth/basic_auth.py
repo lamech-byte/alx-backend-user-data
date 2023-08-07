@@ -18,9 +18,9 @@ class BasicAuth(Auth):
         """
         if authorization_header is None or not isinstance(authorization_header, str):
             return None
-        
+
         if not authorization_header.startswith('Basic '):
             return None
-        
+
         return authorization_header.split(' ', 1)[1]
     pass
