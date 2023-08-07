@@ -3,6 +3,7 @@
 """
 from api.v1.auth.auth import Auth
 
+
 class BasicAuth(Auth):
     """ BasicAuth class for managing basic authentication
     """
@@ -14,9 +15,12 @@ class BasicAuth(Auth):
             authorization_header: The Authorization header string.
 
         Returns:
-            The Base64 part of the Authorization header if valid, otherwise None.
+            The Base64 part of the Authorization header if valid,
+            otherwise None.
         """
-        if authorization_header is None or not isinstance(authorization_header, str):
+        if authorization_header is None or not isinstance(
+            authorization_header, str
+        ):
             return None
 
         if not authorization_header.startswith('Basic '):
