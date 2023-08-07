@@ -5,6 +5,7 @@ Route module for the API
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
+from werkzeug.exceptions import HTTPException, Forbidden
 from flask_cors import (CORS, cross_origin)
 import os
 
@@ -25,6 +26,12 @@ def not_found(error) -> str:
 @app.errorhandler(401)
 def unauthorized(error):
     return jsonify({"error": "Unauthorized"}), 401
+
+
+# Add the error handler for 403 Forbidden
+@app.errorhandler(403)
+def forbidden(error):
+    return jsonify({"error": "Forbidden"}), 403
 
 
 if __name__ == "__main__":
