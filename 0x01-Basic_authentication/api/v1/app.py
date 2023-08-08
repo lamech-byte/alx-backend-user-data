@@ -31,7 +31,11 @@ def before_request():
     Before request handler to perform authentication and authorization checks.
     """
     if auth:
-        required_auth_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+        required_auth_paths = [
+            '/api/v1/status/',
+            '/api/v1/unauthorized/',
+            '/api/v1/forbidden/'
+        ]
         if request.path not in required_auth_paths and auth.require_auth(
             request.path, required_auth_paths
         ):
@@ -73,6 +77,7 @@ def forbidden(error):
     Error handler for 403 Forbidden.
     """
     return jsonify({"error": "Forbidden"}), 403
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
