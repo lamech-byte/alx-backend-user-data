@@ -18,14 +18,15 @@ class Auth:
             False if path is in excluded_paths
             True otherwise
         """
-        if path is None or not excluded_paths:
+        if path is None or excluded_paths is None or not isinstance(
+            excluded_paths, list):
             return True
 
         for excluded_path in excluded_paths:
-            if (
-                path.rstrip('/') == excluded_path.rstrip('/') or
-                path.startswith(excluded_path)
-            ):
+            if excluded_path.endswith('*') and path.startswith(
+                excluded_path[:-1]):
+                return False
+            elif path == excluded_path:
                 return False
 
         return True
