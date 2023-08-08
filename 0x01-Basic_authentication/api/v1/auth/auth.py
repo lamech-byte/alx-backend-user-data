@@ -20,11 +20,14 @@ class Auth:
         """
         if path is None or not excluded_paths:
             return True
-        
+
         for excluded_path in excluded_paths:
-            if path.rstrip('/') == excluded_path.rstrip('/') or path.startswith(excluded_path):
+            if (
+                path.rstrip('/') == excluded_path.rstrip('/') or
+                path.startswith(excluded_path)
+            ):
                 return False
-        
+
         return True
 
     def authorization_header(self, request=None) -> str:
@@ -32,7 +35,8 @@ class Auth:
         Get the authorization header from the request.
 
         Returns:
-            The value of the header 'Authorization' if present, None otherwise.
+            The value of the header 'Authorization' if present,
+            None otherwise.
         """
         if request is None:
             return None
