@@ -32,7 +32,8 @@ class Auth:
         Get the authorization header from the request.
 
         Returns:
-            The value of the header 'Authorization' if present, None otherwise.
+            The value of the header 'Authorization' if present,
+            None otherwise.
         """
         if request is None:
             return None
