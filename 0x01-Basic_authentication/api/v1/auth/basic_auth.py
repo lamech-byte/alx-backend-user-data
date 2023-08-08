@@ -52,7 +52,7 @@ class BasicAuth(Auth):
             base64_authorization_header, str
         ):
             return None
-        
+
         try:
             decoded_bytes = base64.b64decode(base64_authorization_header)
             decoded_string = decoded_bytes.decode('utf-8')
