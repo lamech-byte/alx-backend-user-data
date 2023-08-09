@@ -48,3 +48,8 @@ def stats() -> str:
     stats = {}
     stats['users'] = User.count()
     return jsonify(stats), 200
+
+
+@app.errorhandler(403)
+def forbidden(error):
+    return jsonify({"error": "Forbidden"}), 403
