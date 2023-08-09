@@ -34,7 +34,7 @@ def status() -> str:
     Returns:
       - the status of the API
     """
-    return jsonify({"status": "OK"})
+    return jsonify({"status": "OK"}), 200
 
 
 @app_views.route('/stats/', strict_slashes=False)
@@ -42,9 +42,9 @@ def stats() -> str:
     """
     GET /api/v1/stats
     Returns:
-      - the number of each objects
+      - the number of each object
     """
     from models.user import User
     stats = {}
     stats['users'] = User.count()
-    return jsonify(stats)
+    return jsonify(stats), 200
