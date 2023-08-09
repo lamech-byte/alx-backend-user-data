@@ -20,8 +20,7 @@ auth = None
 if 'AUTH_TYPE' in os.environ:
     if os.environ['AUTH_TYPE'] == 'basic_auth':
         from api.v1.auth.basic_auth import BasicAuth
-        # Initialize BasicAuth
-        basic_auth = BasicAuth()
+        auth = BasicAuth()
     else:
         auth = Auth()
 
