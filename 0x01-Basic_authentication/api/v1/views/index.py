@@ -6,7 +6,6 @@ Module of Index views
 from flask import jsonify, Blueprint, abort
 from werkzeug.exceptions import HTTPException, Unauthorized, Forbidden
 from api.v1.views import app_views
-from api.v1.app import app
 
 # Create a Blueprint for the views
 app_views = Blueprint("app_views", __name__)
@@ -49,8 +48,3 @@ def stats() -> str:
     stats = {}
     stats['users'] = User.count()
     return jsonify(stats), 200
-
-
-@app.errorhandler(403)
-def forbidden(error):
-    return jsonify({"error": "Forbidden"}), 403
