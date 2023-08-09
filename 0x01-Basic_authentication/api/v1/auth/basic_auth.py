@@ -86,6 +86,7 @@ class BasicAuth(Auth):
             return None, None
 
         user_credentials = decoded_base64_authorization_header.rsplit(':', 1)
+        print(f"User credentials: {user_credentials}")
         if len(user_credentials) != 2:
             return None, None
 
