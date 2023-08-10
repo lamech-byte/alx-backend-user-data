@@ -35,8 +35,8 @@ def before_request():
             '/api/v1/status',
             '/api/v1/unauthorized',
             '/api/v1/forbidden',
-            '/api/v1/users',      # Exclude the users endpoint from authentication
-            '/api/v1/users/me',   # Exclude the users/me endpoint from authentication
+            '/api/v1/users',
+            '/api/v1/users/me',
         ]
         if auth.require_auth(request.path, excluded_paths):
             auth_header = auth.authorization_header(request)
