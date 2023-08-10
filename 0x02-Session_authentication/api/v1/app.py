@@ -53,6 +53,9 @@ def before_request():
             if current_user is None:
                 abort(403)
 
+            if path == '/api/v1/auth_session/login':
+                return jsonify({"error": "Not found"}), 404
+
 
 @app.route('/api/v1/status', methods=['GET'], strict_slashes=False)
 def status():
