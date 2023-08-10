@@ -5,7 +5,7 @@ Auth module
 
 import os
 from typing import List, TypeVar
-from flask import request
+from flask import request, Request
 
 
 class Auth:
