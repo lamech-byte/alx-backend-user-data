@@ -4,6 +4,7 @@ Auth module
 """
 
 import os
+from typing import List
 from flask import request
 
 
