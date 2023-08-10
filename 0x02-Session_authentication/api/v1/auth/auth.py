@@ -6,6 +6,7 @@ Auth module
 import os
 from flask import request
 
+
 class Auth:
     """
     Auth class for managing authentication and authorization
@@ -23,7 +24,8 @@ class Auth:
 
         Args:
             path (str): The path of the route.
-            excluded_paths (list): List of paths to exclude from authentication.
+            excluded_paths (list): List of paths to exclude from
+            authentication.
 
         Returns:
             bool: True if authentication is required, False otherwise.
@@ -77,7 +79,8 @@ class Auth:
             request: The request object.
 
         Returns:
-            str: The value of the cookie named SESSION_NAME, or None if not found.
+            str: The value of the cookie named SESSION_NAME,
+            or None if not found.
         """
         if request is None:
             return None
