@@ -10,6 +10,7 @@ from werkzeug.exceptions import HTTPException, Forbidden
 from flask_cors import (CORS, cross_origin)
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.session_auth import SessionAuth
 import os
 
 app = Flask(__name__)
@@ -21,6 +22,9 @@ if 'AUTH_TYPE' in os.environ:
     if os.environ['AUTH_TYPE'] == 'basic_auth':
         from api.v1.auth.basic_auth import BasicAuth
         auth = BasicAuth()
+    elif os.environ['AUTH_TYPE'] == 'session_auth':  # Add this elif block
+        from api.v1.auth.session_auth import SessionAuth
+        auth = SessionAuth()
     else:
         auth = Auth()
 
