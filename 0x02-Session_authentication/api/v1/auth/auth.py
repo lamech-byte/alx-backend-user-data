@@ -80,7 +80,8 @@ class Auth:
             request: The request object.
 
         Returns:
-            str: The value of the cookie named SESSION_NAME, or None if not found.
+            str: The value of the cookie named SESSION_NAME,
+            or None if not found.
         """
         if request is None:
             return None
