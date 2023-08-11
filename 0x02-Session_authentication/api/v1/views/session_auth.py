@@ -2,7 +2,10 @@ from flask import Blueprint, request, jsonify
 from models.user import User
 from api.v1.app import auth
 
-app_views = Blueprint('session_auth', __name__, url_prefix='/api/v1/auth_session')
+app_views = Blueprint(
+    'session_auth', __name__, url_prefix='/api/v1/auth_session'
+)
+
 
 @app_views.route('/login', methods=['POST'], strict_slashes=False)
 def session_login():
