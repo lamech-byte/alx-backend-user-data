@@ -43,7 +43,7 @@ def before_request():
             '/api/v1/status',
             '/api/v1/unauthorized',
             '/api/v1/forbidden',
-            '/api/v1/auth_session/login'  # Add this line
+            '/api/v1/auth_session/login'
         ]
         if request.path not in excluded_paths and auth.require_auth(
             request.path, excluded_paths
@@ -80,10 +80,10 @@ def unauthorized(error):
     return jsonify({"error": "Unauthorized"}), 401
 
 
-@app.errorhandler(403)
-def forbidden(error):
+@app.errorhandler(403)  # Add this line
+def unauthorized(error):
     """
-    Error handler for 403 Forbidden.
+    Error handler for 401 Unauthorized and 403 Forbidden.
     """
     return jsonify({"error": "Forbidden"}), 403
 
