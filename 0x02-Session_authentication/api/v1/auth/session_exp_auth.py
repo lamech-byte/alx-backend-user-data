@@ -24,6 +24,27 @@ class SessionExpAuth(SessionAuth):
         except ValueError:
             self.session_duration = 0
 
+    def create_session(self, user_id=None):
+        """
+        Creates a Session ID for a user ID.
+
+        Args:
+            user_id (str): The user ID.
+
+        Returns:
+            str: The newly created Session ID.
+        """
+        session_id = super().create_session(user_id)
+        if session_id:
+            if self.user_id_by_session_id is None:
+                self.user_id_by_session_id = {}
+            self.user_id_by_session_id[session_id] = {
+                "user_id": user_id,
+                "created_at": datetime.now()
+            }
+            return session_id
+        return None
+
     def user_id_for_session_id(self, session_id=None):
         """
         Retrieves a user ID based on a Session ID.
