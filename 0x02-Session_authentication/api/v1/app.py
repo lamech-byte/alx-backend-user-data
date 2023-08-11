@@ -23,9 +23,12 @@ if 'AUTH_TYPE' in os.environ:
     if os.environ['AUTH_TYPE'] == 'basic_auth':
         from api.v1.auth.basic_auth import BasicAuth
         auth = BasicAuth()
-    elif os.environ['AUTH_TYPE'] == 'session_auth':  # Add this elif block
+    elif os.environ['AUTH_TYPE'] == 'session_auth':
         from api.v1.auth.session_auth import SessionAuth
         auth = SessionAuth()
+    elif os.environ['AUTH_TYPE'] == 'session_exp_auth':  # Add this elif block
+        from api.v1.auth.session_exp_auth import SessionExpAuth
+        auth = SessionExpAuth()
     else:
         auth = Auth()
 
