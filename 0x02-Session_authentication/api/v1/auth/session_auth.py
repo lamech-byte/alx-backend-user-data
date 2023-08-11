@@ -10,11 +10,6 @@ from api.v1.views import app_views
 from models.user import User
 
 
-app_views = Blueprint(
-    'session_auth', __name__, url_prefix='/api/v1/auth_session'
-)
-
-
 class SessionAuth(Auth):
     """
     SessionAuth class for managing session-based authentication
