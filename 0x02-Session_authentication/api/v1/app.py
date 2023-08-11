@@ -40,24 +40,16 @@ def before_request():
             '/api/v1/status',
             '/api/v1/unauthorized',
             '/api/v1/forbidden',
-            '/api/v1/users',
-            '/api/v1/auth_session/login',
         ]
-        if auth.require_auth(request.path, excluded_paths):
+        if request.path not in excluded_paths and auth.require_auth(
+            request.path, excluded_paths
+        ):
             auth_header = auth.authorization_header(request)
-            session_cookie = auth.session_cookie(request)
-
-            if auth.require_auth(path, excluded_paths) and \
-                    not auth.authorization_header(request) and \
-                    not auth.session_cookie(request):
+            if auth_header is None:
                 abort(401)
-
             current_user = auth.current_user(request)
             if current_user is None:
                 abort(403)
-
-            if path == '/api/v1/auth_session/login':
-                return jsonify({"error": "Not found"}), 404
 
 
 @app.route('/api/v1/status', methods=['GET'], strict_slashes=False)
