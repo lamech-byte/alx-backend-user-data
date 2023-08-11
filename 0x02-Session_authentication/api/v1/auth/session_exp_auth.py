@@ -59,7 +59,8 @@ class SessionExpAuth(SessionAuth):
             session_id (str): The Session ID.
 
         Returns:
-            str: The user ID if found and session is not expired, None otherwise.
+            str: The user ID if found and session is not expired,
+            None otherwise.
         """
         if session_id is None or self.user_id_by_session_id is None:
             return None
@@ -69,7 +70,9 @@ class SessionExpAuth(SessionAuth):
             created_at = session_data.get('created_at')
             if created_at:
                 current_time = datetime.now()
-                expiration_time = created_at + timedelta(seconds=self.session_duration)
+                expiration_time = created_at + timedelta(
+                    seconds=self.session_duration
+                )
                 if current_time <= expiration_time:
                     return session_data.get('user_id')
 
