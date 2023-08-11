@@ -18,6 +18,7 @@ class SessionExpAuth(SessionAuth):
         """
         Constructor
         """
+        super().__init__()
         session_duration_str = os.environ.get('SESSION_DURATION', '0')
         try:
             self.session_duration = int(session_duration_str)
