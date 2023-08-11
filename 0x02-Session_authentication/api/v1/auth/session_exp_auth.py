@@ -5,6 +5,11 @@ SessionExpAuth module
 
 from api.v1.auth.session_auth import SessionAuth
 from datetime import datetime, timedelta
+from api.v1.auth.auth import Auth
+import uuid
+from models.user import User
+from typing import TypeVar
+from flask import request
 import os
 
 
@@ -67,5 +72,22 @@ class SessionExpAuth(SessionAuth):
                 expiration_time = created_at + timedelta(seconds=self.session_duration)
                 if current_time <= expiration_time:
                     return session_data.get('user_id')
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Returns a User instance based on a cookie value.
+
+        Args:
+            request (Request): The Flask request object.
+
+        Returns:
+            User: The User instance if a valid session exists, None otherwise.
+        """
+        session_cookie = self.session_cookie(request)
+        if session_cookie:
+            user_id = self.user_id_for_session_id(session_cookie)
+            if user_id:
+                user = User.get(user_id)
+                return user
 
         return None
