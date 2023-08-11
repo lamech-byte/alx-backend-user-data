@@ -16,6 +16,7 @@ import os
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+app.register_blueprint(session_auth_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 
