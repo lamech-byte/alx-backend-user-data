@@ -19,7 +19,7 @@ sa = SessionAuth()
 
 
 @app_views.route(
-  '/auth_session/login', methods=['POST'], strict_slashes=False
+    '/auth_session/login', methods=['POST'], strict_slashes=False
 )
 def session_login():
     """
