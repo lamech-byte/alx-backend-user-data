@@ -50,8 +50,6 @@ def before_request():
             if current_user is None:
                 abort(403)
 
-    request.current_user = current_user
-
 
 @app.route('/api/v1/status', methods=['GET'], strict_slashes=False)
 def status():
