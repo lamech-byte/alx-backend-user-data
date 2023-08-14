@@ -49,3 +49,19 @@ class Auth:
         """ Get the current user from the request
         """
         return None
+
+    def session_cookie(self, request=None) -> str:
+        """
+        Returns a cookie value from a request.
+
+        Args:
+            request: The request object.
+
+        Returns:
+            str: The value of the cookie named SESSION_NAME, or None if not found.
+        """
+        if request is None:
+            return None
+
+        session_name = os.environ.get('SESSION_NAME', '_my_session_id')
+        return request.cookies.get(session_name)
