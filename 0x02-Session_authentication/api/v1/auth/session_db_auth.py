@@ -2,7 +2,8 @@
 """
 Session DB Auth Module
 
-This module defines the SessionDBAuth class, which handles session-based authentication using database storage.
+This module defines the SessionDBAuth class, which handles session-based
+authentication using database storage.
 """
 
 from api.v1.auth.session_exp_auth import SessionExpAuth
@@ -10,11 +11,13 @@ from models.user_session import UserSession
 from datetime import datetime, timedelta
 from flask import request
 
+
 class SessionDBAuth(SessionExpAuth):
     """
     Session DB Auth class
 
-    This class extends SessionExpAuth and adds database storage for user sessions.
+    This class extends SessionExpAuth and adds database storage for user
+    sessions.
     """
     def create_session(self, user_id=None):
         """
