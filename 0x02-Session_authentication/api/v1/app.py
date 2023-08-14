@@ -14,15 +14,17 @@ import os
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = None
+app.config['SESSION_COOKIE_NAME'] = getenv('SESSION_NAME', 'my_session_id')
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 
-if 'AUTH_TYPE' in os.environ:
-    if os.environ['AUTH_TYPE'] == 'basic_auth':
-        from api.v1.auth.basic_auth import BasicAuth
-        auth = BasicAuth()
-    else:
-        auth = Auth()
+if getenv('AUTH_TYPE') == 'session_auth':
+    app.auth = Auth()
+else:
+    app.auth = None
 
 
 @app.before_request
@@ -56,10 +58,8 @@ def status():
 
 
 @app.errorhandler(404)
-def not_found(error) -> str:
-    """
-    Error handler for 404 Not Found.
-    """
+def not_found(error):
+    """Handles 404 errors"""
     return jsonify({"error": "Not found"}), 404
 
 
