@@ -8,6 +8,7 @@ from api.v1.auth.session_auth import SessionAuth
 from models.user import User
 from api.v1.views import session_auth
 
+
 @session_auth.route('/login', methods=['POST'], strict_slashes=False)
 def login():
     """ Handles the /api/v1/auth_session/login route """
