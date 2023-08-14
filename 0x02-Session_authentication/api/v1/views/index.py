@@ -6,8 +6,7 @@ Module of Index views
 from flask import jsonify, Blueprint, abort
 from werkzeug.exceptions import HTTPException, Unauthorized, Forbidden
 
-# Create a Blueprint for the views
-# app_views = Blueprint("app_views", __name__)
+index = Blueprint("index", __name__)
 
 
 @app_views.route('/api/v1/unauthorized', methods=['GET'])
