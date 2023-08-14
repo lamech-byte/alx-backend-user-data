@@ -56,3 +56,23 @@ def session_login():
     response.set_cookie(app.config['SESSION_NAME'], session_id)
 
     return response, 200
+
+
+@app_views.route(
+    '/auth_session/logout', methods=['DELETE'], strict_slashes=False
+)
+def session_logout():
+    """
+    Handles session-based authentication logout.
+
+    Deletes the user session (session ID) if available in the request's cookie.
+    Returns an empty JSON dictionary with the status code 200 if successful.
+
+    Returns:
+        Response: Empty JSON dictionary with status code 200 if session is destroyed.
+    """
+    if not sa.destroy_session(request):
+        abort(404)
+
+    response = jsonify({})
+    return response, 200
