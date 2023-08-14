@@ -4,6 +4,7 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
+from api.v1.auth import auth
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
@@ -120,3 +121,25 @@ def update_user(user_id: str = None) -> str:
         user.last_name = rj.get('last_name')
     user.save()
     return jsonify(user.to_json()), 200
+
+
+@app.route('/api/v1/users/<user_id>', methods=['GET'], strict_slashes=False)
+def get_user(user_id: str) -> str:
+    """
+    Get a User object based on its ID.
+
+    Args:
+        user_id (str): The User ID.
+
+    Returns:
+        str: JSON representation of the User object.
+    """
+    if user_id == 'me':
+        if request.current_user:
+            return jsonify(request.current_user.to_dict())
+        else:
+            abort(404)
+    user = User.get(user_id)
+    if not user:
+        abort(404)
+    return jsonify(user.to_dict())
