@@ -48,3 +48,8 @@ def stats() -> str:
     stats = {}
     stats['users'] = User.count()
     return jsonify(stats), 200
+
+
+@app_views.route('/', methods=['GET'], strict_slashes=False)
+def index():
+    return jsonify({"message": "Welcome to the API!"})
