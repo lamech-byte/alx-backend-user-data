@@ -13,6 +13,9 @@ from flask import Flask, request, jsonify, make_response
 from api.v1.views import app_views
 from models.user import User
 from api.v1.app import auth
+from api.v1.auth.session_auth import SessionAuth
+
+sa = SessionAuth()
 
 
 @app_views.route(
@@ -37,20 +40,19 @@ def session_login():
 
     if not email:
         return jsonify({"error": "email missing"}), 400
-
     if not password:
         return jsonify({"error": "password missing"}), 400
 
-    user = User.search(email)
+    user = User.search({"email": email})
     if not user:
         return jsonify({"error": "no user found for this email"}), 404
-
-    if not user.is_valid_password(password):
+    if not user[0].is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
 
-    session_id = auth.create_session(user.id)
-    response_data = user.to_json()
-    response = make_response(jsonify(response_data), 200)
-    response.set_cookie(auth.SESSION_NAME, session_id)
+    session_id = sa.create_session(user[0].id)
+    response_data = user[0].to_json()
+    response_data["__class__"] = "User"
+    response = jsonify(response_data)
+    response.set_cookie(app.config['SESSION_NAME'], session_id)
 
-    return response
+    return response, 200
