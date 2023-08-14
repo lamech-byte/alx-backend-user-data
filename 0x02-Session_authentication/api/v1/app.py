@@ -10,6 +10,7 @@ from werkzeug.exceptions import HTTPException, Forbidden
 from flask_cors import (CORS, cross_origin)
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.session_auth import SessionAuth 
 import os
 
 app = Flask(__name__)
