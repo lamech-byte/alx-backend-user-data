@@ -25,6 +25,9 @@ if 'AUTH_TYPE' in os.environ:
     elif os.environ['AUTH_TYPE'] == 'session_auth':
         from api.v1.auth.session_auth import SessionAuth
         auth = SessionAuth()
+    elif auth_type == "session_exp_auth":
+        from api.v1.auth.session_exp_auth import SessionExpAuth
+        auth = SessionExpAuth()
     else:
         auth = Auth()
 
