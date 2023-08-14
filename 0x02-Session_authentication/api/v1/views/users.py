@@ -132,5 +132,5 @@ def view_authenticated_user() -> str:
     authenticated_user = request.current_user
     if authenticated_user is None:
         abort(404)
-    
+
     return jsonify(authenticated_user.to_json())
