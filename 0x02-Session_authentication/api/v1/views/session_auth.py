@@ -3,15 +3,16 @@
 Session Authentication module
 """
 
-from flask import request, jsonify, current_app
-from api.v1.auth.session_auth import SessionAuth
+from flask import request, jsonify, abort
+from api.v1.views import app_views
 from models.user import User
-from api.v1.views import session_auth
+from api.v1.app import auth
 
 
-@session_auth.route('/login', methods=['POST'], strict_slashes=False)
+@app_views.route(
+    '/auth_session/login', methods=['POST'], strict_slashes=False
+)
 def login():
-    """ Handles the /api/v1/auth_session/login route """
     email = request.form.get('email')
     password = request.form.get('password')
 
@@ -23,16 +24,18 @@ def login():
     user = User.search({'email': email})
     if not user:
         return jsonify({"error": "no user found for this email"}), 404
-
     if not user[0].is_valid_password(password):
         return jsonify({"error": "wrong password"}), 401
 
-    auth = current_app.auth
     session_id = auth.create_session(user[0].id)
+    response = user[0].to_json()
+    response["email"] = user[0].email
+    response["id"] = user[0].id
+    response["created_at"] = user[0].created_at.strftime(
+        '%Y-%m-%d %H:%M:%S'
+    )
+    response["updated_at"] = user[0].updated_at.strftime(
+        '%Y-%m-%d %H:%M:%S'
+    )
 
-    response_data = user[0].to_json()
-    response_data["email"] = email
-    response = jsonify(response_data)
-    response.set_cookie(current_app.config["SESSION_NAME"], session_id)
-
-    return response
+    return jsonify(response), 200
