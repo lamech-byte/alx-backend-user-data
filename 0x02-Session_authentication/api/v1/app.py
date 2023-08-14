@@ -4,7 +4,6 @@ Route module for the API
 """
 
 from os import getenv
-from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from werkzeug.exceptions import HTTPException, Forbidden
 from flask_cors import (CORS, cross_origin)
@@ -13,7 +12,6 @@ from api.v1.auth.basic_auth import BasicAuth
 import os
 
 app = Flask(__name__)
-app.register_blueprint(app_views)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = None
