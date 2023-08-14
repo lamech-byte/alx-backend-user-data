@@ -10,14 +10,10 @@ from werkzeug.exceptions import HTTPException, Forbidden
 from flask_cors import (CORS, cross_origin)
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
-from api.v1.auth.session_auth import SessionAuth
-from api.v1.auth.session_exp_auth import SessionExpAuth
-from api.v1.views import app_views, session_auth 
 import os
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
-app.register_blueprint(session_auth)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 
@@ -25,12 +21,6 @@ if 'AUTH_TYPE' in os.environ:
     if os.environ['AUTH_TYPE'] == 'basic_auth':
         from api.v1.auth.basic_auth import BasicAuth
         auth = BasicAuth()
-    elif os.environ['AUTH_TYPE'] == 'session_auth':
-        from api.v1.auth.session_auth import SessionAuth
-        auth = SessionAuth()
-    elif os.environ['AUTH_TYPE'] == 'session_exp_auth':  # Add this elif block
-        from api.v1.auth.session_exp_auth import SessionExpAuth
-        auth = SessionExpAuth()
     else:
         auth = Auth()
 
@@ -44,8 +34,7 @@ def before_request():
         excluded_paths = [
             '/api/v1/status',
             '/api/v1/unauthorized',
-            '/api/v1/forbidden',
-            '/api/v1/auth_session/login'
+            '/api/v1/forbidden'
         ]
         if request.path not in excluded_paths and auth.require_auth(
             request.path, excluded_paths
@@ -82,10 +71,10 @@ def unauthorized(error):
     return jsonify({"error": "Unauthorized"}), 401
 
 
-@app.errorhandler(403)  # Add this line
-def unauthorized(error):
+@app.errorhandler(403)
+def forbidden(error):
     """
-    Error handler for 401 Unauthorized and 403 Forbidden.
+    Error handler for 403 Forbidden.
     """
     return jsonify({"error": "Forbidden"}), 403
 
