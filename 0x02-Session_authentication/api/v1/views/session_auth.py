@@ -69,7 +69,8 @@ def session_logout():
     Returns an empty JSON dictionary with the status code 200 if successful.
 
     Returns:
-        Response: Empty JSON dictionary with status code 200 if session is destroyed.
+        Response: Empty JSON dictionary with status code 200
+        if session is destroyed.
     """
     if not sa.destroy_session(request):
         abort(404)
