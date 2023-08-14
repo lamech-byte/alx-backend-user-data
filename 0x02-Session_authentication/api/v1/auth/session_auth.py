@@ -83,5 +83,5 @@ class SessionAuth(Auth):
         if user_id is None:
             return None
 
-        user = User.get(user_id)  # Assuming you have a method to retrieve User from the database
+        user = User.get(user_id)
         return user
