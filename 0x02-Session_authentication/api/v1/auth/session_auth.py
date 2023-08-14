@@ -46,3 +46,42 @@ class SessionAuth(Auth):
             return None
 
         return self.user_id_by_session_id.get(session_id)
+
+def user_id_for_session_id(self, session_id: str = None) -> str:
+        """
+        Returns a User ID based on a Session ID.
+
+        Args:
+            session_id (str): The Session ID.
+
+        Returns:
+            str: The User ID associated with the Session ID, or None.
+        """
+        if session_id is None or not isinstance(session_id, str):
+            return None
+
+        return self.user_id_by_session_id.get(session_id)
+
+    def current_user(self, request=None):
+        """
+        Returns a User instance based on a session cookie value.
+
+        Args:
+            request: The request object.
+
+        Returns:
+            User instance or None.
+        """
+        if request is None:
+            return None
+
+        session_cookie = self.session_cookie(request)
+        if session_cookie is None:
+            return None
+
+        user_id = self.user_id_for_session_id(session_cookie)
+        if user_id is None:
+            return None
+
+        user = User.get(user_id)  # Assuming you have a method to retrieve User from the database
+        return user
