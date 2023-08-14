@@ -73,7 +73,7 @@ def session_logout():
         if session is destroyed.
     """
     if not sa.destroy_session(request):
-        abort(404)
+        return jsonify({}), 404
 
     response = jsonify({})
     return response, 200
