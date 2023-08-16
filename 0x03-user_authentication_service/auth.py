@@ -28,7 +28,7 @@ class Auth:
         Returns:
             bytes: The hashed password bytes.
         """
-        salt = bcrypt.gensalt()
+        salt = b'$2b$12$eUDdeuBtrD41c8dXvzh95e'
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed_password
 
