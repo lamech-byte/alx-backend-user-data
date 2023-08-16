@@ -54,21 +54,31 @@ class Auth:
             user = self._db.add_user(email, hashed_password)
             return user
 
+    def valid_login(self, email: str, password: str) -> bool:
+        """
+        Validate a user's login credentials.
+
+        Args:
+            email (str): The user's email.
+            password (str): The user's password.
+
+        Returns:
+            bool: True if the login is valid, False otherwise.
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            hashed_password = user.hashed_password.encode('utf-8')
+            return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
+        except NoResultFound:
+            return False
+
 
 if __name__ == "__main__":
     auth = Auth()
+    email = 'bob@bob.com'
+    password = 'MyPwdOfBob'
+    auth.register_user(email, password)
 
-    email = 'me@me.com'
-    password = 'mySecuredPwd'
-
-    try:
-        user = auth.register_user(email, password)
-        print("successfully created a new user!")
-    except ValueError as err:
-        print("could not create a new user:", err)
-
-    try:
-        user = auth.register_user(email, password)
-        print("successfully created a new user!")
-    except ValueError as err:
-        print("could not create a new user:", err)
+    print(auth.valid_login(email, password))
+    print(auth.valid_login(email, "WrongPwd"))
+    print(auth.valid_login("unknown@email", password))
