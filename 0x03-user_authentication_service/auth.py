@@ -6,6 +6,7 @@ from db import DB
 from sqlalchemy.orm.exc import NoResultFound
 import bcrypt
 from typing import Union
+from user import User 
 
 
 class Auth:
