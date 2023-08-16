@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """auth module
 """
-from db import DB
-import bcrypt
-from sqlalchemy.orm.exc import NoResultFound
 
+from db import DB
+from sqlalchemy.orm.exc import NoResultFound
+import bcrypt
+from typing import Union
 
 class Auth:
     """Auth class to interact with the authentication database.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize a new Auth instance.
+        """
         self._db = DB()
 
     def _hash_password(self, password: str) -> bytes:
@@ -27,7 +30,7 @@ class Auth:
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed_password
 
-    def register_user(self, email: str, password: str):
+    def register_user(self, email: str, password: str) -> Union[None, User]:
         """
         Register a new user.
 
@@ -36,7 +39,7 @@ class Auth:
             password (str): The user's password.
 
         Returns:
-            User: The created User object.
+            Union[None, User]: The created User object.
 
         Raises:
             ValueError: If a user with the same email already exists.
@@ -49,6 +52,5 @@ class Auth:
             user = self._db.add_user(email, hashed_password)
             return user
 
-
 if __name__ == "__main__":
-    print(_hash_password("Hello Holberton"))
+    print(Auth()._hash_password("Hello Holberton"))
