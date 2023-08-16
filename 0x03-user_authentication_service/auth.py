@@ -8,6 +8,7 @@ import bcrypt
 from typing import Union
 from user import User  # Import the User class
 
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -52,6 +53,7 @@ class Auth:
             hashed_password = self._hash_password(password)
             user = self._db.add_user(email, hashed_password)
             return user
+
 
 if __name__ == "__main__":
     auth = Auth()
