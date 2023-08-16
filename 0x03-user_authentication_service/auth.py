@@ -17,5 +17,6 @@ def _hash_password(password: str) -> bytes:
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
     return hashed_password
 
+
 if __name__ == "__main__":
     print(_hash_password("Hello Holberton"))
