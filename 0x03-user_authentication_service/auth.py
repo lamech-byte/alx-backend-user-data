@@ -7,6 +7,7 @@ from sqlalchemy.orm.exc import NoResultFound
 import bcrypt
 from typing import Union
 
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -51,6 +52,7 @@ class Auth:
             hashed_password = self._hash_password(password)
             user = self._db.add_user(email, hashed_password)
             return user
+
 
 if __name__ == "__main__":
     print(Auth()._hash_password("Hello Holberton"))
