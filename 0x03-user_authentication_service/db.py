@@ -3,8 +3,10 @@
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, exc
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User  # Import the User model from user.py
 
 
@@ -45,12 +47,46 @@ class DB:
         self._session.commit()
         return new_user
 
+    def find_user_by(self, **kwargs) -> User:
+        """
+        Find a user by specified filters.
+
+        Args:
+            **kwargs: Arbitrary keyword arguments used for filtering.
+
+        Returns:
+            User: The found User object.
+
+        Raises:
+            NoResultFound: If no results are found.
+            InvalidRequestError: If wrong query arguments are passed.
+        """
+        try:
+            user = self._session.query(User).filter_by(**kwargs).one()
+            return user
+        except NoResultFound:
+            raise NoResultFound("No user found")
+        except InvalidRequestError:
+            raise InvalidRequestError("Invalid query arguments")
+
 
 if __name__ == "__main__":
     my_db = DB()
 
-    user_1 = my_db.add_user("test@test.com", "SuperHashedPwd")
+    user_1 = my_db.add_user("test@test.com", "PwdHashed")
     print(user_1.id)
 
-    user_2 = my_db.add_user("test1@test.com", "SuperHashedPwd1")
-    print(user_2.id)
+    find_user = my_db.find_user_by(email="test@test.com")
+    print(find_user.id)
+
+    try:
+        find_user = my_db.find_user_by(email="test2@test.com")
+        print(find_user.id)
+    except NoResultFound:
+        print("Not found")
+
+    try:
+        find_user = my_db.find_user_by(no_email="test@test.com")
+        print(find_user.id)
+    except InvalidRequestError:
+        print("Invalid")
