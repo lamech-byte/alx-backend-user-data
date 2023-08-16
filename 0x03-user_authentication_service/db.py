@@ -9,8 +9,6 @@ from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User  # Import the User model from user.py
 
-import bcrypt
-
 
 class DB:
     """DB class
@@ -96,20 +94,6 @@ class DB:
             self._session.commit()
         except NoResultFound:
             raise NoResultFound("User not found")
-
-    def _hash_password(password: str) -> bytes:
-        """
-        Hash a password using bcrypt.
-
-        Args:
-            password (str): The password string to hash.
-
-        Returns:
-            bytes: The hashed password bytes.
-        """
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-        return hashed_password
 
 
 if __name__ == "__main__":
