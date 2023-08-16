@@ -4,10 +4,16 @@
 from db import DB
 import bcrypt
 from sqlalchemy.orm.exc import NoResultFound
+from typing import Union
 
 class Auth:
     """Auth class to interact with the authentication database.
     """
+
+    def __init__(self) -> None:
+        """Initialize a new Auth instance.
+        """
+        self._db = DB()
 
     def _hash_password(password: str) -> bytes:
         """
@@ -23,7 +29,7 @@ class Auth:
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed_password
 
-    def register_user(self, email: str, password: str):
+    def register_user(self, email: str, password: str) -> Union[None, User]:
         """
         Register a new user.
 
@@ -32,7 +38,7 @@ class Auth:
             password (str): The user's password.
 
         Returns:
-            User: The created User object.
+            Union[None, User]: The created User object.
 
         Raises:
             ValueError: If a user with the same email already exists.
@@ -45,6 +51,20 @@ class Auth:
             user = self._db.add_user(email, hashed_password)
             return user
 
-    
 if __name__ == "__main__":
-    print(_hash_password("Hello Holberton"))
+    auth = Auth()
+
+    email = 'me@me.com'
+    password = 'mySecuredPwd'
+
+    try:
+        user = auth.register_user(email, password)
+        print("successfully created a new user!")
+    except ValueError as err:
+        print("could not create a new user:", err)
+
+    try:
+        user = auth.register_user(email, password)
+        print("successfully created a new user!")
+    except ValueError as err:
+        print("could not create a new user:", err)
