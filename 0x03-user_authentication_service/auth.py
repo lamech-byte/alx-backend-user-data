@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """auth module
 """
-from db import DB
-import bcrypt
-from sqlalchemy.orm.exc import NoResultFound
-from typing import Union
-from user import User
 
+from db import DB
+from sqlalchemy.orm.exc import NoResultFound
+import bcrypt
+from typing import Union
+from user import User  # Import the User class
 
 class Auth:
     """Auth class to interact with the authentication database.
@@ -17,7 +17,7 @@ class Auth:
         """
         self._db = DB()
 
-    def _hash_password(password: str) -> bytes:
+    def _hash_password(self, password: str) -> bytes:
         """
         Hash a password using bcrypt.
 
@@ -52,7 +52,6 @@ class Auth:
             hashed_password = self._hash_password(password)
             user = self._db.add_user(email, hashed_password)
             return user
-
 
 if __name__ == "__main__":
     auth = Auth()
