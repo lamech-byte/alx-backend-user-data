@@ -23,6 +23,11 @@ def hello() -> str:
 def users():
     """
     POST /users route.
+    Register a new user.
+
+    Returns:
+        JSON: Response JSON containing user email and creation message.
+            If user already exists, returns a JSON message.
     """
     email = request.form.get('email')
     password = request.form.get('password')
