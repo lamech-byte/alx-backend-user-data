@@ -1,10 +1,20 @@
+#!/usr/bin/env python3
+"""
+Flask App Module
+"""
+
 from flask import Flask, jsonify
+from auth import Auth
 
 app = Flask(__name__)
+auth = Auth()
 
 
 @app.route("/", methods=["GET"])
-def hello():
+def hello() -> str:
+    """
+    Returns a JSON message.
+    """
     message = {"message": "Bienvenue"}
     return jsonify(message)
 
