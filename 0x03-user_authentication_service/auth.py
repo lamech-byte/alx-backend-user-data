@@ -35,13 +35,13 @@ def register_user(self, email: str, password: str):
         Raises:
             ValueError: If a user with the same email already exists.
         """
-        try:
-            existing_user = self._db.find_user_by(email=email)
-            raise ValueError(f"User {email} already exists")
-        except NoResultFound:
-            hashed_password = self._hash_password(password)
-            user = self._db.add_user(email, hashed_password)
-            return user
+    try:
+        existing_user = self._db.find_user_by(email=email)
+        raise ValueError(f"User {email} already exists")
+    except NoResultFound:
+        hashed_password = self._hash_password(password)
+        user = self._db.add_user(email, hashed_password)
+        return user
 
 
 if __name__ == "__main__":
