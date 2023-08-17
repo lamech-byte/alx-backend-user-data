@@ -18,7 +18,7 @@ class Auth:
         """
         self._db = DB()
 
-    def _hash_password(password: str) -> bytes:
+    def _hash_password(self, password: str) -> bytes:
         """
         Hash a password using bcrypt.
 
