@@ -15,6 +15,10 @@ auth = Auth()
 def hello() -> str:
     """
     Returns a JSON message.
+
+    Returns:
+        JSON: Response JSON containing user email and creation message.
+            If user already exists, returns a JSON message.
     """
     message = {"message": "Bienvenue"}
     return jsonify(message)
@@ -24,6 +28,11 @@ def hello() -> str:
 def register_user():
     """
     POST /users route.
+    Register a new user.
+
+    Returns:
+        JSON: Response JSON containing user email and creation message.
+            If user already exists, returns a JSON message.
     """
     email = request.form.get('email')
     password = request.form.get('password')
@@ -38,7 +47,13 @@ def register_user():
 @app.route('/sessions', methods=['POST'])
 def create_session():
     """
-    POST /sessions route.
+    Create a new session for a user.
+
+    Args:
+        email (str): The user's email.
+
+    Returns:
+        Union[str, None]: The session ID if the user exists, else None.
     """
     email = request.form.get('email')
     password = request.form.get('password')
