@@ -87,5 +87,29 @@ def logout():
         return jsonify({"error": "Forbidden"}), 403
 
 
+@app.route('/profile', methods=['GET'])
+def get_profile():
+    """
+    Get a new session for user profile.
+
+    Args:
+        email (str): The user's email.
+
+    Returns:
+        Union[str, None]: The session ID if the user exists, else user not found.
+    """
+    session_id = request.cookies.get('session_id')
+    
+    if not session_id:
+        return make_response('Session ID is missing', 403)
+    
+    user = auth.get_user_from_session_id(session_id)
+    
+    if not user:
+        return make_response('Invalid session ID or user not found', 403)
+    
+    return jsonify({'email': user.email})
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
