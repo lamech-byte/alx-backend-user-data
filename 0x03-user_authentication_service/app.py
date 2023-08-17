@@ -115,7 +115,7 @@ def get_profile():
 @app.route('/reset_password', methods=['POST'])
 def get_reset_password_token():
     """
-    Get a reset password token for user.
+    Reset password token for user.
 
     Args:
         reset password token.
@@ -138,6 +138,30 @@ def get_reset_password_token():
         return jsonify(response_data), 200
     except ValueError as e:
         abort(403, str(e))
+
+
+@app.route('/reset_password', methods=['PUT'])
+def update_password():
+    """
+    Update password token for user.
+
+    Args:
+        update user password.
+
+    Returns:
+        Union[str, None]: User email if the user
+        email does not exists, else invalid reset token.
+    """
+    try:
+        email = request.form.get('email')
+        reset_token = request.form.get('reset_token')
+        new_password = request.form.get('new_password')
+        
+        auth.update_password(reset_token, new_password)
+        
+        return jsonify({"email": email, "message": "Password updated"}), 200
+    except ValueError:
+        return "Invalid reset token", 403
 
 
 if __name__ == "__main__":
