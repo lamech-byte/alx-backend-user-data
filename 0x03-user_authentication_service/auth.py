@@ -80,8 +80,9 @@ if __name__ == "__main__":
     email = 'bob@bob.com'
     password = 'MyPwdOfBob'
     auth.register_user(email, password)
+    hashed_password = auth._hash_password("Hello Holberton")
 
     print(auth.valid_login(email, password))
     print(auth.valid_login(email, "WrongPwd"))
     print(auth.valid_login("unknown@email", password))
-    print(_hash_password("Hello Holberton"))
+    print(hashed_password)
