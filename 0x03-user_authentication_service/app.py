@@ -68,5 +68,23 @@ def create_session():
         abort(401)
 
 
+@app.route('/sessions', methods=['DELETE'])
+def logout():
+    """
+    Log out a user by destroying their session.
+
+    Returns:
+        Response: A Flask Response with the appropriate status code and message.
+    """
+    session_id = request.cookies.get('session_id')
+    user = auth.get_user_from_session_id(session_id)
+
+    if user:
+        auth.destroy_session(user.id)
+        return redirect('/', code=302)
+    else:
+        return jsonify({"error": "Forbidden"}), 403
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
