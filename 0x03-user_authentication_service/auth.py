@@ -85,20 +85,23 @@ class Auth:
         new_uuid = uuid.uuid4()
         return str(new_uuid)
 
-    def create_session(self, email: str) -> str:
+    def create_session(self, email: str) -> Union[str, None]:
         """
-        Create a new session for the user with the given email.
-
+        Create a new session for a user.
+    
         Args:
-            email (str): The email of the user.
-
+            email (str): The user's email.
+    
         Returns:
-            str: The session ID.
+            Union[str, None]: The session ID if the user exists, else None.
         """
-        user = self._db.find_user_by(email=email)
-        session_id = self._generate_uuid()
-        self._db.update_user(user.id, session_id=session_id)
-        return session_id
+        try:
+            user = self._db.find_user_by(email=email)
+            session_id = self._generate_uuid()
+            user.session_id = session_id
+            return session_id
+        except NoResultFound:
+            return None
 
 
 if __name__ == "__main__":
