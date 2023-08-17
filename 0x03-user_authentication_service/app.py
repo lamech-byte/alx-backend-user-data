@@ -40,20 +40,21 @@ def users():
 
 
 @app.route('/sessions', methods=['POST'])
-def sessions():
-    """
-    POST /sessions route.
-    """
+def create_session():
     email = request.form.get('email')
     password = request.form.get('password')
 
+    # Check if login information is correct
     if auth.valid_login(email, password):
+        # Generate a session ID
         session_id = auth.create_session(email)
+        
+        # Set the session ID as a cookie
         response = jsonify({"email": email, "message": "logged in"})
-        response.set_cookie('session_id', session_id)  # Set session ID cookie
+        response.set_cookie("session_id", session_id)
         return response
     else:
-        abort(401)  # Unauthorized
+        abort(401)
 
 
 if __name__ == "__main__":
