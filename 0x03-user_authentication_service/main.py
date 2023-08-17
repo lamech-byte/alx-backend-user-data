@@ -1,4 +1,5 @@
 import requests
+from requests import post
 
 BASE_URL = "http://localhost:5000"
 
