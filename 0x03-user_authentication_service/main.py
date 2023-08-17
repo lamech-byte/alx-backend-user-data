@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+"""
+Main Module for Testing User Authentication Service
+"""
+
 import requests
 from requests import post
 
@@ -5,8 +10,11 @@ BASE_URL = "http://localhost:5000"
 
 
 def register_user(email: str, password: str) -> None:
+    """
+    Register a new user.
+    """
     data = {"email": email, "password": password}
-    response = post("http://localhost:5000/users", data=data)
+    response = post(f"{BASE_URL}/users", data=data)
     print(
         f"Register User Response: {response.status_code} {response.text}"
     )
@@ -14,6 +22,9 @@ def register_user(email: str, password: str) -> None:
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
+    """
+    Attempt to log in with incorrect password.
+    """
     response = requests.post(
         f"{BASE_URL}/sessions",
         data={"email": email, "password": password}
@@ -23,12 +34,18 @@ def log_in_wrong_password(email: str, password: str) -> None:
 
 
 def profile_unlogged() -> None:
+    """
+    Attempt to access profile without logging in.
+    """
     response = requests.get(f"{BASE_URL}/profile")
     assert response.status_code == 403
     print("Profile access without login failed.")
 
 
 def log_in(email: str, password: str) -> str:
+    """
+    Log in and return the session ID.
+    """
     response = requests.post(
         f"{BASE_URL}/sessions",
         data={"email": email, "password": password}
@@ -40,6 +57,9 @@ def log_in(email: str, password: str) -> str:
 
 
 def profile_logged(session_id: str) -> None:
+    """
+    Access profile after logging in.
+    """
     headers = {"Cookie": f"session_id={session_id}"}
     response = requests.get(f"{BASE_URL}/profile", headers=headers)
     assert response.status_code == 200
@@ -48,6 +68,9 @@ def profile_logged(session_id: str) -> None:
 
 
 def log_out(session_id: str) -> None:
+    """
+    Log out a user.
+    """
     headers = {"Cookie": f"session_id={session_id}"}
     response = requests.delete(f"{BASE_URL}/sessions", headers=headers)
     assert response.status_code == 302
@@ -55,6 +78,9 @@ def log_out(session_id: str) -> None:
 
 
 def reset_password_token(email: str) -> str:
+    """
+    Generate a reset password token.
+    """
     response = requests.post(
         f"{BASE_URL}/reset_password",
         data={"email": email}
@@ -66,6 +92,9 @@ def reset_password_token(email: str) -> str:
 
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
+    """
+    Update user's password.
+    """
     response = requests.put(
         f"{BASE_URL}/reset_password",
         data={
