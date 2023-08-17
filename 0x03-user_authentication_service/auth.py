@@ -6,7 +6,7 @@ from db import DB
 from sqlalchemy.orm.exc import NoResultFound
 import bcrypt
 from typing import Union
-from user import User  # Import the User class
+from user import User
 
 
 class Auth:
@@ -18,19 +18,19 @@ class Auth:
         """
         self._db = DB()
 
-    def _hash_password(self, password: str) -> bytes:
-        """
-        Hash a password using bcrypt.
+    def _hash_password(password: str) -> bytes:
+    """
+    Hash a password using bcrypt.
 
-        Args:
-            password (str): The password string to hash.
+    Args:
+        password (str): The password string to hash.
 
-        Returns:
-            bytes: The hashed password bytes.
-        """
-        salt = b'$2b$12$eUDdeuBtrD41c8dXvzh95e'
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-        return hashed_password
+    Returns:
+        bytes: The hashed password bytes.
+    """
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed_password
 
     def register_user(self, email: str, password: str) -> Union[None, User]:
         """
@@ -84,3 +84,4 @@ if __name__ == "__main__":
     print(auth.valid_login(email, password))
     print(auth.valid_login(email, "WrongPwd"))
     print(auth.valid_login("unknown@email", password))
+    print(_hash_password("Hello Holberton"))
