@@ -4,12 +4,17 @@ BASE_URL = "http://localhost:5000"
 
 
 def register_user(email: str, password: str) -> None:
-    response = requests.post(
-        f"{BASE_URL}/users",
-        data={"email": email, "password": password}
+    url = "http://localhost:5000/users"
+    data = {
+        "email": email,
+        "password": password
+    }
+
+    response = requests.post(url, data=data)
+    print(
+        "Register User Response:", response.status_code, response.text
     )
     assert response.status_code == 201
-    print("User registered successfully.")
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
