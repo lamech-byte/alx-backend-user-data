@@ -48,7 +48,7 @@ def create_session():
     if auth.valid_login(email, password):
         # Generate a session ID
         session_id = auth.create_session(email)
-        
+
         # Set the session ID as a cookie
         response = jsonify({"email": email, "message": "logged in"})
         response.set_cookie("session_id", session_id)
