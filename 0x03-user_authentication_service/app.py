@@ -114,6 +114,16 @@ def get_profile():
 
 @app.route('/reset_password', methods=['POST'])
 def get_reset_password_token():
+    """
+    Get a reset password token for user.
+
+    Args:
+        reset password token.
+
+    Returns:
+        Union[str, None]: User email if the user
+        email does not exists, else missing email field.
+    """
     if 'email' not in request.form:
         abort(400, 'Missing email field')
 
