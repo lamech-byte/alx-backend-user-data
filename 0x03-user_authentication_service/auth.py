@@ -19,18 +19,18 @@ class Auth:
         self._db = DB()
 
     def _hash_password(password: str) -> bytes:
-    """
-    Hash a password using bcrypt.
+        """
+        Hash a password using bcrypt.
 
-    Args:
-        password (str): The password string to hash.
+        Args:
+            password (str): The password string to hash.
 
-    Returns:
-        bytes: The hashed password bytes.
-    """
-    salt = bcrypt.gensalt()
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-    return hashed_password
+        Returns:
+            bytes: The hashed password bytes.
+        """
+        salt = bcrypt.gensalt()
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+        return hashed_password
 
     def register_user(self, email: str, password: str) -> Union[None, User]:
         """
