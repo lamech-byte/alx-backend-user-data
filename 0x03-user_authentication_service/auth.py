@@ -76,4 +76,11 @@ class Auth:
 
 
 if __name__ == "__main__":
-    print(_hash_password("Hello Holberton"))
+    auth = Auth()
+    email = 'bob@bob.com'
+    password = 'MyPwdOfBob'
+    auth.register_user(email, password)
+
+    print(auth.valid_login(email, password))
+    print(auth.valid_login(email, "WrongPwd"))
+    print(auth.valid_login("unknown@email", password))
