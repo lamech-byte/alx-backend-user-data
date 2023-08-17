@@ -96,18 +96,19 @@ def get_profile():
         email (str): The user's email.
 
     Returns:
-        Union[str, None]: The session ID if the user exists, else user not found.
+        Union[str, None]: The session ID if the user
+        exists, else user not found.
     """
     session_id = request.cookies.get('session_id')
-    
+
     if not session_id:
         return make_response('Session ID is missing', 403)
-    
+
     user = auth.get_user_from_session_id(session_id)
-    
+
     if not user:
         return make_response('Invalid session ID or user not found', 403)
-    
+
     return jsonify({'email': user.email})
 
 
