@@ -3,8 +3,9 @@
 Flask App Module
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort, make_response
 from auth import Auth
+
 
 app = Flask(__name__)
 auth = Auth()
@@ -18,16 +19,10 @@ def hello() -> str:
     message = {"message": "Bienvenue"}
     return jsonify(message)
 
-
 @app.route('/users', methods=['POST'])
-def users():
+def register_user():
     """
     POST /users route.
-    Register a new user.
-
-    Returns:
-        JSON: Response JSON containing user email and creation message.
-            If user already exists, returns a JSON message.
     """
     email = request.form.get('email')
     password = request.form.get('password')
@@ -38,19 +33,18 @@ def users():
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
-
 @app.route('/sessions', methods=['POST'])
 def create_session():
+    """
+    POST /sessions route.
+    """
     email = request.form.get('email')
     password = request.form.get('password')
 
-    # Check if login information is correct
     if auth.valid_login(email, password):
-        # Generate a session ID
         session_id = auth.create_session(email)
-
-        # Set the session ID as a cookie
-        response = jsonify({"email": email, "message": "logged in"})
+        response_data = {"email": email, "message": "logged in"}
+        response = jsonify(response_data)
         response.set_cookie("session_id", session_id)
         return response
     else:
