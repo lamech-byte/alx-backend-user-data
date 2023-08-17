@@ -2,8 +2,6 @@
 """
 Main file
 """
-from auth import Auth
+from auth import _hash_password
 
-auth = Auth()
-hashed_password = auth._hash_password("Hello Holberton")
-print(hashed_password)
+print(_hash_password("Hello Holberton"))
