@@ -74,7 +74,8 @@ def logout():
     Log out a user by destroying their session.
 
     Returns:
-        Response: A Flask Response with the appropriate status code and message.
+        Response: A Flask Response with the appropriate
+        status code and message.
     """
     session_id = request.cookies.get('session_id')
     user = auth.get_user_from_session_id(session_id)
