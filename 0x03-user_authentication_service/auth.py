@@ -88,10 +88,10 @@ class Auth:
     def create_session(self, email: str) -> Union[str, None]:
         """
         Create a new session for a user.
-    
+
         Args:
             email (str): The user's email.
-    
+
         Returns:
             Union[str, None]: The session ID if the user exists, else None.
         """
