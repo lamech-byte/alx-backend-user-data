@@ -3,7 +3,7 @@
 Flask App Module
 """
 
-from flask import Flask, request, jsonify, abort, make_response
+from flask import Flask, request, jsonify, abort, make_response, redirect
 from auth import Auth
 
 
