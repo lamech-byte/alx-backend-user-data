@@ -25,7 +25,6 @@ def register_user(email: str, password: str) -> None:
     assert response.status_code in (201, 400)
 
 
-
 def log_in_wrong_password(email: str, password: str) -> None:
     response = requests.post(
         f"{BASE_URL}/sessions",
