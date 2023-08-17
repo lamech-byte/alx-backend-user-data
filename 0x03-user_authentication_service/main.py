@@ -5,6 +5,14 @@ BASE_URL = "http://localhost:5000"
 
 def register_user(email: str, password: str) -> None:
     url = "http://localhost:5000/users"
+
+    # Check if email is already registered
+    response = requests.get(url, params={"email": email})
+    if response.status_code == 200:
+        print("Email already registered:", response.text)
+        return
+
+    # If email is not registered, proceed with registration
     data = {
         "email": email,
         "password": password
