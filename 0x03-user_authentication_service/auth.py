@@ -7,6 +7,7 @@ from sqlalchemy.orm.exc import NoResultFound
 import bcrypt
 from typing import Union
 from user import User
+import uuid
 
 
 class Auth:
