@@ -33,6 +33,18 @@ class Auth:
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed_password
 
+    def hash_password(self, password: str) -> bytes:
+        """
+        Hash a password using bcrypt.
+
+        Args:
+            password (str): The password string to hash.
+
+        Returns:
+            bytes: The hashed password bytes.
+        """
+        return self._hash_password(password)
+
     def register_user(self, email: str, password: str) -> Union[None, User]:
         """
         Register a new user.
