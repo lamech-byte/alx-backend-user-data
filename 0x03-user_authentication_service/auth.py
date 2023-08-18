@@ -55,7 +55,8 @@ class Auth:
             password (str): The user's password.
 
         Returns:
-            Optional[User]: The created User object or None if user already exists.
+            Optional[User]: The created User object or None if user
+            already exists.
 
         Raises:
             ValueError: If a user with the same email already exists.
