@@ -19,6 +19,7 @@ class Auth:
         """
         self._db = DB()
 
+    @staticmethod
     def _hash_password(self, password: str) -> bytes:
         """
         Hash a password using bcrypt.
@@ -45,7 +46,7 @@ class Auth:
         """
         return self._hash_password(password)
 
-    def register_user(self, email: str, password: str) -> Union[None, User]:
+    def register_user(self, email: str, password: str) -> Optional[User]:
         """
         Register a new user.
 
@@ -54,7 +55,7 @@ class Auth:
             password (str): The user's password.
 
         Returns:
-            Union[None, User]: The created User object.
+            Optional[User]: The created User object or None if user already exists.
 
         Raises:
             ValueError: If a user with the same email already exists.
